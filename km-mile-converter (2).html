@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kilometer-Mile Converter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 450px;
+            width: 100%;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        h2 {
+            text-align: center;
+            color: #7c3aed;
+            margin-bottom: 30px;
+            font-size: 2em;
+            background: linear-gradient(135deg, #f97316 0%, #7c3aed 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #6b21a8;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+        
+        input[type="number"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9d5ff;
+            border-radius: 10px;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            background: #faf5ff;
+        }
+        
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #7c3aed;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+        }
+        
+        select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #fed7aa;
+            border-radius: 10px;
+            font-size: 1.05em;
+            background: #fff7ed;
+            color: #7c2d12;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        select:focus {
+            outline: none;
+            border-color: #f97316;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+        }
+        
+        button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #f97316 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #fff7ed 0%, #faf5ff 100%);
+            border-radius: 12px;
+            text-align: center;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #e9d5ff;
+        }
+        
+        .result-text {
+            font-size: 1.3em;
+            font-weight: 600;
+            background: linear-gradient(135deg, #f97316 0%, #7c3aed 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .error {
+            color: #dc2626;
+            -webkit-text-fill-color: #dc2626;
+        }
+        
+        .icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">📍 - - - 🚗 - - - 📍</div>
+        <h2>Distance Converter</h2>
+        
+        <div class="input-group">
+            <label for="inputValue">Enter Value</label>
+            <input type="number" id="inputValue" placeholder="Enter a number" step="any" />
+        </div>
+        
+        <div class="input-group">
+            <label for="conversionDirection">Conversion Direction</label>
+            <select id="conversionDirection">
+                <option value="kmToMi">Kilometers → Miles</option>
+                <option value="miToKm">Miles → Kilometers</option>
+            </select>
+        </div>
+        
+        <button onclick="convert()">Convert</button>
+        
+        <div class="result" id="result">
+            <span class="result-text">Enter a value to convert</span>
+        </div>
+    </div>
+    
+    <script>
+        function convert() {
+            const inputValue = parseFloat(document.getElementById('inputValue').value);
+            const conversionDirection = document.getElementById('conversionDirection').value;
+            const resultDiv = document.getElementById('result');
+            let resultText;
+            
+            if (isNaN(inputValue) || inputValue === '') {
+                resultText = '<span class="result-text error">⚠️ Please enter a valid number</span>';
+            } else {
+                if (conversionDirection === 'kmToMi') {
+                    const miles = (inputValue * 0.621371).toFixed(2);
+                    resultText = `<span class="result-text">${inputValue} km = ${miles} miles</span>`;
+                } else {
+                    const km = (inputValue / 0.621371).toFixed(2);
+                    resultText = `<span class="result-text">${inputValue} miles = ${km} km</span>`;
+                }
+            }
+            
+            resultDiv.innerHTML = resultText;
+        }
+        
+        // Allow Enter key to trigger conversion
+        document.getElementById('inputValue').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                convert();
+            }
+        });
+    </script>
+</body>
+</html>
